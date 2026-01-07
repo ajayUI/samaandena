@@ -84,3 +84,7 @@ design_guidelines.json
 *.temp
 *.swp
 *.swo
+-e 
+# Environment files
+*.env
+*.env.*
