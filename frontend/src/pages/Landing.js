@@ -333,8 +333,9 @@ export default Landing;
               data-testid="cta-signup-btn"
               className="bg-white text-primary hover:bg-stone-50 h-12 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95"
             >
-              Sign Up Now
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <ShoppingBag className="w-6 h-6 mr-3" />
+              Sign Up Free Today
+              <ArrowRight className="w-6 h-6 ml-3" />
             </Button>
           </Link>
         </div>
@@ -342,5 +343,7 @@ export default Landing;
     </div>
   );
 };
+
+export default Landing;
 
 export default Landing;
