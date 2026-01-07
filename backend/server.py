@@ -167,6 +167,10 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         raise HTTPException(status_code=401, detail="Invalid token")
 
 # Auth Routes
+@api_router.get("/")
+async def root():
+    return {"message": "SamaanDena API", "status": "running"}
+
 @api_router.post("/auth/register")
 async def register(data: UserRegister):
     existing = await db.users.find_one({"email": data.email}, {"_id": 0})
