@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from '@/contexts/AuthContext';
-import { Navbar } from '@/components/Navbar';
-import { Toaster } from '@/components/ui/sonner';
-import Landing from '@/pages/Landing';
-import Auth from '@/pages/Auth';
-import CustomerDashboard from '@/pages/CustomerDashboard';
-import ShopDashboard from '@/pages/ShopDashboard';
-import DeliveryDashboard from '@/pages/DeliveryDashboard';
-import '@/App.css';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { Navbar } from './components/Navbar';
+import { Toaster } from './components/ui/sonner';
+import Landing from './pages/Landing';
+import Auth from './pages/Auth';
+import CustomerDashboard from './pages/CustomerDashboard';
+import ShopDashboard from './pages/ShopDashboard';
+import DeliveryDashboard from './pages/DeliveryDashboard';
+import './App.css';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, loading } = useAuth();
