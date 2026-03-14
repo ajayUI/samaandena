@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 
 class SamaanDenaAPITester:
-    def __init__(self, base_url="https://quickmart-141.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://local-delivery-app-8.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.tokens = {}  # Store tokens for different user types
         self.users = {}   # Store user data
