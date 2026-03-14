@@ -1,23 +1,16 @@
 const CACHE_NAME = 'samaandena-v1';
 const RUNTIME_CACHE = 'samaandena-runtime';
 
-const urlsToCache = [
-  '/',
-  '/static/js/bundle.js',
-  '/static/js/main.chunk.js',
-  '/manifest.json',
-  '/logo192.png',
-  '/logo512.png'
-];
-
-// Install Service Worker
+// Install Service Worker - skip precaching to avoid errors with dev server
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then((cache) => {
+      console.log('Cache opened');
+      // Only cache the root and manifest - other assets cached at runtime
+      return cache.addAll(['/', '/manifest.json']).catch(() => {
+        console.log('Precache failed for some assets, continuing...');
+      });
+    })
   );
   self.skipWaiting();
 });
@@ -41,10 +34,11 @@ self.addEventListener('activate', (event) => {
 
 // Fetch Strategy: Network First, Cache Fallback
 self.addEventListener('fetch', (event) => {
+  // Skip non-GET requests
+  if (event.request.method !== 'GET') return;
+
   // Skip cross-origin requests
-  if (!event.request.url.startsWith(self.location.origin)) {
-    return;
-  }
+  if (!event.request.url.startsWith(self.location.origin)) return;
 
   // API requests - Network only
   if (event.request.url.includes('/api/')) {
@@ -56,17 +50,15 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // Clone the response
-        const responseToCache = response.clone();
-        
-        caches.open(RUNTIME_CACHE).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
-        
+        if (response && response.status === 200) {
+          const responseToCache = response.clone();
+          caches.open(RUNTIME_CACHE).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+        }
         return response;
       })
       .catch(() => {
-        // If network fails, try cache
         return caches.match(event.request);
       })
   );

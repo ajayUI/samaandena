@@ -424,6 +424,10 @@ async def get_reviews(target_id: str):
     reviews = await db.reviews.find({"target_id": target_id}, {"_id": 0}).to_list(1000)
     return reviews
 
+@api_router.get("/health")
+async def health_check():
+    return {"status": "ok", "service": "samaandena-api"}
+
 app.include_router(api_router)
 
 app.add_middleware(
